@@ -1,3 +1,5 @@
+const BASE_PATH = process.cwd() + "/archive/";
+console.log(BASE_PATH);
 const fs = require("fs");
 const path = require("path");
 const archiver = require("archiver");
@@ -19,20 +21,25 @@ async function getDirectory(name) {
     resolve(directory);
   });
 }
-async function saveDirectory(name) {
-  fs.access(__dirname + "/archive" + name, fs.constants.F_OK, (err) => {
-    if (err) {
-      fs.mkdir(path.join(__dirname + "/archive/", `${name}`), (err) => {
-        if (err) {
-          return console.error(err);
-        }
-        console.log("Directory created successfully!");
-      });
-    } else {
-      return;
-    }
+function saveDirectory(dir) {
+  return new Promise((resolve, reject) => {
+    fs.access(dir, fs.constants.F_OK, (err) => {
+      if (err) {
+        fs.mkdir(path.join(dir), { recursive: true }, (err) => {
+          if (err) {
+            reject(err);
+          }
+          resolve("Directory created successfully!");
+        });
+      } else {
+        reject("unknown error");
+      }
+    });
   });
 }
+function checkFolderContent(dir, name) {
+  
+};
 async function getContents(name) {
   const file = await client.getFileContents(name, { format: "text" });
   return file;
@@ -40,7 +47,7 @@ async function getContents(name) {
 async function goInsideTheDirectory(name) {
   const directoryContents = await getDirectory(name);
   for (i = 0; i < directoryContents.length; i++) {
-    await saveDirectory(directoryContents[i].filename);
+    saveDirectory(BASE_PATH + directoryContents[i].filename);
     await getDirectoryContents(directoryContents[i].filename);
   }
 }
@@ -52,7 +59,7 @@ async function getDirectoryContents(name) {
     }
     switch (directoryContents[i].type) {
       case "directory": {
-        await saveDirectory(directoryContents[i].filename);
+        saveDirectory(BASE_PATH + directoryContents[i].filename);
         await goInsideTheDirectory(directoryContents[i].filename);
         break;
       }
@@ -81,3 +88,9 @@ async function getDirectoryContents(name) {
     );
   });
 })();
+
+/**
+ * @param dir - принимает абсолютный путь до локального кaталога в файловой системе
+ * @param name - имя папки на удалённом сервере
+ */
+// function checkFolderContent(dir, name)

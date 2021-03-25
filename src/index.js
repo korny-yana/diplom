@@ -76,7 +76,7 @@ async function getDirectoryContents(name) {
     })();
   });
 }
-setInterval(async () => {
+setTimeout(async () => {
   await getDirectoryContents("");
 }, 5000);
 

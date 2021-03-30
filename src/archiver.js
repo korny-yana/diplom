@@ -4,11 +4,12 @@ const fs = require("fs");
 const path = require("path");
 const output = fs.createWriteStream("files.zip");
 const archive = archiver("zip", {
-  zlib: { level: 9 },
+  zlib: { level: 3 },
 });
 
 (async () => {
   await getDirectoryContents("");
+  archive.directory('subdir/', 'new-subdir');
   await archive.pipe(output);
   archive.finalize();
   output.on("close", function () {

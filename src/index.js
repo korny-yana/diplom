@@ -91,4 +91,4 @@ async function getDirectoryContents(name) {
  */
 // function checkFolderContent(dir, name)
 
-module.exports = { getDirectoryContents };
+module.exports = { getDirectoryContents, BASE_PATH };

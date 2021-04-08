@@ -44,12 +44,17 @@ function saveDirectory(dir) {
 async function getContents(name) {
   try {
     const file = Buffer.from(await client.getFileContents(name));
+    console.log(file);
     return file;
   } catch (e) {
     const p = [];
     p.push(name);
     console.log(p);
   }
+}
+async function writeContentsFile(file, dir) {
+  const writableStream = fs.createWriteStream(dir);
+  writableStream.write(file);
 }
 async function getDirectoryContents(name) {
   const directoryContents = await getDirectory(name);
@@ -67,14 +72,7 @@ async function getDirectoryContents(name) {
       case "file": {
         console.log(directory.filename);
         const fileContents = await getContents(directory.filename);
-        fs.writeFile(
-          `${BASE_PATH + directory.filename}`,
-          fileContents,
-          (err) => {
-            if (err) throw err;
-            console.log("The file has been saved!");
-          }
-        );
+        await writeContentsFile(fileContents, BASE_PATH + directory.filename);
         queueОfRequests.shift(directory);
         break;
       }

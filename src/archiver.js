@@ -9,7 +9,7 @@ const archive = archiver("zip", {
 
 (async () => {
   await getDirectoryContents("");
-  archive.directory('././archive', 'archive');
+  archive.directory("././archive", "archive");
   await archive.pipe(output);
   archive.finalize();
   output.on("close", function () {

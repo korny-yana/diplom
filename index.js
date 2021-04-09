@@ -1,1 +1,1 @@
-require('src/index.js')
+require('api/src/index.js')

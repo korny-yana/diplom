@@ -1,28 +1,43 @@
 <template>
-  <templte
-    ><img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App"
-  /></templte>
+  <div>
+    <ul class="list-none">
+      <li>Parent directory</li>
+    </ul>
+    <ul
+      v-for="(item, idx) in getDirectory"
+      :key="idx"
+      @click="getDirectoryJSONMap(item.name)"
+      class="list-none"
+    >
+      <li>
+        <hr />
+        {{ item.name }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import directory from "../../api/src/directory-map.json";
 
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      directory_list: Object.values(directory.children),
+    };
+  },
+  computed: {
+    getDirectory() {
+      return this.directory_list;
+    },
+  },
+  methods: {
+    getDirectoryJSONMap(name) {
+      const dir = Object.values(this.directory_list).find(
+        (item) => item.name === name
+      );
+      this.directory_list = dir.children;
+    },
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

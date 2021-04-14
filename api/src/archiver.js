@@ -1,4 +1,4 @@
-const { getDirectoryContents } = require("./index");
+const { getDirectoryContents } = require("./get-directory");
 const archiver = require("archiver");
 const fs = require("fs");
 const path = require("path");

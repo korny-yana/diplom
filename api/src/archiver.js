@@ -7,7 +7,7 @@ const archive = archiver("zip", {
   zlib: { level: 3 },
 });
 
-(async () => {
+function archiveDirectory() {
   await getDirectoryContents("");
   archive.directory("././archive", "archive");
   await archive.pipe(output);
@@ -18,4 +18,5 @@ const archive = archiver("zip", {
       "archiver has been finalized and the output file descriptor has closed."
     );
   });
-})();
+}
+module.exports = {archiveDirectory}

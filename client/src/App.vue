@@ -1,7 +1,7 @@
 <template>
   <div>
     <template>
-      <div class="m-8 flex flex-row-reverse">
+      <div @click="getArchive()" class="mr-72 my-8 flex flex-row-reverse">
         <v-btn elevation="1" x-large
           ><svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@
     </template>
 
     <template>
-      <v-card class=" mx-auto" tile>
+      <v-card class=" mx-72" tile>
         <v-list dense>
           <v-list-item-group v-model="selectedItem" color="primary">
             <v-list-item v-for="(item, i) in getDirectory" :key="i">
@@ -54,35 +54,6 @@
         </v-list>
       </v-card>
     </template>
-    <!-- <ul class="list-none">
-      <li>Parent directory</li>
-    </ul>
-    <ul v-for="(item, idx) in getDirectory" :key="idx" class="list-none">
-      <li>
-        <div class="grid grid-cols-2">
-          <p @click="getDirectoryJSONMap(item.name)">
-            <a> {{ item.name }}</a>
-          </p>
-          <v-btn elevation="1" icon x-large
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-              /></svg
-          ></v-btn>
-        </div>
-
-        <hr />
-      </li>
-    </ul> -->
   </div>
 </template>
 

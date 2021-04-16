@@ -11,6 +11,8 @@
     "webdav": "^4.2.1"
   },
   "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-plugin-vue": "^7.9.0",
     "nodemon": "^2.0.7"
   }
 }

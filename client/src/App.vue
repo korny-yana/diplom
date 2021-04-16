@@ -1,8 +1,8 @@
 <template>
   <div>
     <template>
-      <div @click="getArchive()" class="mr-72 my-8 flex flex-row-reverse">
-        <v-btn elevation="1" x-large
+      <div class="m-8 mx-72 flex flex-row-reverse">
+        <v-btn @click="getTheWholeArchive()" elevation="1" x-large
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -25,7 +25,7 @@
     <template>
       <v-card class=" mx-72" tile>
         <v-list dense>
-          <v-list-item-group v-model="selectedItem" color="primary">
+          <v-list-item-group>
             <v-list-item v-for="(item, i) in getDirectory" :key="i">
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
@@ -71,6 +71,9 @@ export default {
     },
   },
   methods: {
+    async getTheWholeArchive() {
+
+    },
     getDirectoryJSONMap(name) {
       const dir = Object.values(this.directory_list).find(
         (item) => item.name === name

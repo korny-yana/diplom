@@ -8,7 +8,6 @@ const { NASA_USERNAME } = require("../config/index");
 const { NASA_PASSWORD } = require("../config/index");
 const { createClient } = require("webdav");
 const queueОfRequests = [];
-const queueОfWorkers = [];
 const client = createClient(NASA_SERVICE_URL, {
   username: NASA_USERNAME,
   password: NASA_PASSWORD,

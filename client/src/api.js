@@ -1,9 +1,11 @@
 const fetch = require("node-fetch");
-const { archiveDirectory } = require("../../api/src/archiver");
 
 async function get() {
-  const dir = await fetch("http://127.0.0.1:3000/");
-  console.log(dir);
+  const dir = await fetch("http://192.168.1.189:3000/", {
+    method: "get",
+  }).then((res) => res.json());
+
   return dir;
 }
-module.exports = { get, archive };
+
+module.exports = { get };

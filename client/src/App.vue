@@ -23,14 +23,14 @@
     </template>
 
     <template>
-      <v-card class=" mx-72" tile>
+      <v-card class="mx-72" tile>
         <v-list dense>
           <v-list-item-group>
             <v-list-item v-for="(item, i) in getDirectory" :key="i">
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
               </v-list-item-icon>
-              <v-list-item-content @click="getDirectoryJSONMap(item.name)">
+              <v-list-item-content @click="goToDirectory(item.name)">
                 <v-list-item-title
                   v-text="item.name"
                 ></v-list-item-title> </v-list-item-content
@@ -58,12 +58,15 @@
 </template>
 
 <script>
-import directory from "../../api/src/directory-map.json";
+import { get } from "./api";
 export default {
   data() {
     return {
-      directory_list: Object.values(directory.children),
+      directory_list: null,
     };
+  },
+  mounted() {
+    this.requestDirectoryList();
   },
   computed: {
     getDirectory() {
@@ -71,10 +74,11 @@ export default {
     },
   },
   methods: {
-    async getTheWholeArchive() {
-
+    async requestDirectoryList() {
+      const dir = await get();
+      this.directory_list = Object.values(dir.children);
     },
-    getDirectoryJSONMap(name) {
+    goToDirectory(name) {
       const dir = Object.values(this.directory_list).find(
         (item) => item.name === name
       );

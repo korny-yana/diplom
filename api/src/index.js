@@ -1,23 +1,24 @@
 const http = require("http");
 const fs = require("fs");
-const hostname = "127.0.0.1";
+const headers = {
+  Accept: "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "X-Requested-With": "XMLHttpRequest",
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Headers":
+    "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+};
+const hostname = "192.168.1.189";
 const port = 3000;
-const { getDirectoryMap } = require("./directory-map");
-const { getDirectoryContents } = require("./get-directory");
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
- fs.readFile(__dirname + '/directory-map.json', function(err, data) {
-     if (err) throw err;
-     res.writeHead(200, {"Content-Type": "application/json"})
-     res.end(data)
- })
+  fs.readFile(__dirname + "/directory-map.json", function (err, data) {
+    if (err) throw err;
+    res.writeHead(200, headers);
+    res.end(data);
+  });
 });
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-setInterval(async () => {
-  await getDirectoryMap();
-  await getDirectoryContents("");
-}, 86400000);

@@ -63,10 +63,10 @@
                   />
                 </svg>
               </v-list-item-icon>
-              <v-list-item-content @click="goToDirectory(item.name)">
-                <a :href="item.path">
+              <v-list-item-content @click="requestDirectoryList(item.path)">
+               
                   <v-list-item-title v-text="item.name"></v-list-item-title
-                ></a> </v-list-item-content
+                > </v-list-item-content
               ><v-btn elevation="1" icon class="focus:outline-none"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ export default {
     };
   },
   mounted() {
-    this.requestDirectoryList();
+    this.requestDirectoryList("archive");
   },
   computed: {
     getDirectory() {
@@ -107,15 +107,9 @@ export default {
     },
   },
   methods: {
-    async requestDirectoryList() {
-      const dir = await get();
-      this.directory_list = Object.values(dir.children);
-    },
-    goToDirectory(name) {
-      const dir = Object.values(this.directory_list).find(
-        (item) => item.name === name
-      );
-      this.directory_list = dir.children;
+    async requestDirectoryList(name) {
+      const dir = await get(name);
+      this.directory_list = dir;
     },
   },
 };

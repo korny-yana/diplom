@@ -1,9 +1,10 @@
 const fs = require("fs");
 const dirTree = require("directory-tree");
-const tree = dirTree("archive", { normalizePath: true });
-async function getDirectoryMap() {
+
+async function getDirectoryMap(path) {
+  const tree = dirTree(path, { normalizePath: true });
   fs.writeFile(
-    process.cwd() + "/directory-map.json",
+    __dirname + "/directory-map.json",
     JSON.stringify(tree),
     (err) => {
       if (err) {

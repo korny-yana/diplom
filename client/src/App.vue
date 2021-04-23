@@ -2,39 +2,72 @@
   <div>
     <template>
       <div class="m-8 mx-72 flex flex-row-reverse">
-        <v-btn @click="getTheWholeArchive()" elevation="1" x-large
-          ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div class="">
+          <v-btn elevation="1" x-large class="focus:outline-none"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 mr-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+              />
+            </svg>
+            Скачать архив</v-btn
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-            />
-          </svg>
-          Скачать архив</v-btn
-        >
+        </div>
+        <div class="mr-8">
+          <v-btn elevation="1" x-large class="focus:outline-none"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            Обновить архив</v-btn
+          >
+        </div>
       </div>
     </template>
-
     <template>
       <v-card class="mx-72" tile>
         <v-list dense>
           <v-list-item-group>
             <v-list-item v-for="(item, i) in getDirectory" :key="i">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+              <v-list-item-icon class="mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                  />
+                </svg>
               </v-list-item-icon>
               <v-list-item-content @click="goToDirectory(item.name)">
-                <v-list-item-title
-                  v-text="item.name"
-                ></v-list-item-title> </v-list-item-content
-              ><v-btn elevation="1" icon
+                <a :href="item.path">
+                  <v-list-item-title v-text="item.name"></v-list-item-title
+                ></a> </v-list-item-content
+              ><v-btn elevation="1" icon class="focus:outline-none"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6"

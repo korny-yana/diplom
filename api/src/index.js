@@ -8,10 +8,11 @@ const headers = {
   "Access-Control-Allow-Headers":
     "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
 };
-const hostname = "192.168.1.189";
+const hostname = "127.0.0.1";
 const port = 3000;
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
+  console.log(req.url);
   fs.readFile(__dirname + "/directory-map.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, headers);

@@ -3,7 +3,11 @@
     <template>
       <div class="m-8 mx-72 flex flex-row-reverse">
         <div class="">
-          <v-btn elevation="1" x-large class="focus:outline-none"
+          <v-btn
+            elevation="1"
+            x-large
+            class="focus:outline-none"
+            @click="downloadAllArchive()"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 mr-3"
@@ -47,7 +51,7 @@
         <v-list dense>
           <v-list-item-group>
             <v-list-item v-for="(item, i) in getDirectory" :key="i">
-              <v-list-item-icon class="mr-3">
+              <v-list-item-icon v-if="dataType(item.type)" class="mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6"
@@ -63,11 +67,32 @@
                   />
                 </svg>
               </v-list-item-icon>
-              <v-list-item-content @click="requestDirectoryList(item.path)">
-               
-                  <v-list-item-title v-text="item.name"></v-list-item-title
-                > </v-list-item-content
-              ><v-btn elevation="1" icon class="focus:outline-none"
+              <v-list-item-icon v-if="!dataType(item.type)" class="mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  /></svg
+              ></v-list-item-icon>
+              <v-list-item-content
+                @click="requestDirectoryList(item.path, item.type, item.name)"
+              >
+                <v-list-item-title
+                  v-text="item.name"
+                ></v-list-item-title></v-list-item-content
+              ><v-btn
+                elevation="1"
+                icon
+                class="focus:outline-none"
+                v-if="dataType(item.type)"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6"
@@ -89,17 +114,16 @@
     </template>
   </div>
 </template>
-
 <script>
-import { get } from "./api";
+import { get, getfile } from "./api";
 export default {
   data() {
     return {
       directory_list: null,
     };
   },
-  mounted() {
-    this.requestDirectoryList("archive");
+  beforeMount() {
+    this.requestDirectoryList("archive", "directory", "name");
   },
   computed: {
     getDirectory() {
@@ -107,9 +131,19 @@ export default {
     },
   },
   methods: {
-    async requestDirectoryList(name) {
-      const dir = await get(name);
-      this.directory_list = dir;
+    async downloadAllArchive() {
+      await get("allArchive")
+    },
+    dataType(type) {
+      if (type === "directory") return true;
+    },
+    async requestDirectoryList(path, type, name) {
+      console.log(type);
+      if (this.dataType(type)) {
+        this.directory_list = await get(path);
+      } else {
+       await getfile(path, name);
+      }
     },
   },
 };

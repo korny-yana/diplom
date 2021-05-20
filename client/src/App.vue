@@ -138,7 +138,6 @@ export default {
       if (type === "directory") return true;
     },
     async requestDirectoryList(path, type, name) {
-      console.log(type);
       if (this.dataType(type)) {
         this.directory_list = await get(path);
       } else {

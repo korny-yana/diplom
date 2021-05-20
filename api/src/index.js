@@ -42,16 +42,19 @@ const server = http.createServer(async (req, res) => {
     }
     default: {
       const request = req.url.slice(1);
-      if (path.extname(req.url)) {
-        const data = Buffer.from(fs.readFileSync(request));
-        responseEnd(data);
-      } else {
-        await getDirectoryMap(request);
-        fs.readFile(__dirname + "/directory-map.json", function (err, data) {
-          if (err) throw err;
+      fs.stat(request, async (err, stats) => {
+        if (err) console.error(err);
+        if (stats.isDirectory()) {
+          await getDirectoryMap(request);
+          fs.readFile(__dirname + "/directory-map.json", function (err, data) {
+            if (err) throw err;
+            responseEnd(data);
+          });
+        } else {
+          const data = Buffer.from(fs.readFileSync(request));
           responseEnd(data);
-        });
-      }
+        }
+      });
       break;
     }
   }

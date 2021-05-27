@@ -7,7 +7,7 @@
             elevation="1"
             x-large
             class="focus:outline-none"
-            @click="downloadAllArchive()"
+            @click="downloadArchive()"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 mr-3"
@@ -88,7 +88,8 @@
                 <v-list-item-title
                   v-text="item.name"
                 ></v-list-item-title></v-list-item-content
-              ><v-btn
+              ><v-btn 
+                @click="downloadArchive(item.path)"
                 elevation="1"
                 icon
                 class="focus:outline-none"
@@ -115,7 +116,7 @@
   </div>
 </template>
 <script>
-import { get, getfile } from "./api";
+import { get, getfile, getArchiveDirectory } from "./api";
 export default {
   data() {
     return {
@@ -123,7 +124,7 @@ export default {
     };
   },
   beforeMount() {
-    this.requestDirectoryList("archive", "directory", "name");
+    this.requestDirectoryList("archive", "directory", "name", "");
   },
   computed: {
     getDirectory() {
@@ -131,8 +132,8 @@ export default {
     },
   },
   methods: {
-    async downloadAllArchive() {
-      await get("allArchive")
+    async downloadArchive(path) {
+      getArchiveDirectory(path);
     },
     dataType(type) {
       if (type === "directory") return true;
@@ -141,7 +142,7 @@ export default {
       if (this.dataType(type)) {
         this.directory_list = await get(path);
       } else {
-       await getfile(path, name);
+        await getfile(path, name);
       }
     },
   },

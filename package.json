@@ -8,6 +8,7 @@
     "directory-tree": "^2.2.7",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
+    "url-polyfill": "^1.1.12",
     "webdav": "^4.2.1"
   },
   "devDependencies": {

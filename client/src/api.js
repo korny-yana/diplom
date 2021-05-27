@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const {downloadFiles} = require('../../api/src/download-file')
+const {downloadFiles} = require('./download-file')
 async function get(pathName) {
   let dir = await fetch(`http://127.0.0.1:3000/${pathName}`, {
     method: "get",
@@ -14,4 +14,13 @@ async function getfile(pathName, filename) {
   downloadFiles(filename, response)
 }
 
-module.exports = { get, getfile };
+async function getArchiveDirectory(pathName) {
+  if (pathName === undefined) {
+    pathName = "getArchive";
+  }
+  await fetch(`http://127.0.0.1:3000/${pathName}`, {
+    method: "post", body: "archive"
+  })
+}
+
+module.exports = { get, getfile, getArchiveDirectory};

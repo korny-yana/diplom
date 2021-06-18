@@ -1,14 +1,14 @@
 const archiver = require("archiver");
 const fs = require("fs");
-async function archiveDirectory(path) {
-  const output = fs.createWriteStream("archive.zip");
+async function archiveDirectory(path, name) {
+  const output = fs.createWriteStream("api/src/archive.zip");
   const archive = archiver("zip", {
-  zlib: { level: 3 },
-});
+    zlib: { level: 3 },
+  });
   if (path === "getArchive") {
     path = __dirname + "/archive";
   }
-  archive.directory(path, "archive");
+  await archive.directory(path, `${name}`);
   await archive.pipe(output);
   output.on("close", function () {
     console.log(archive.pointer() + " total bytes");
@@ -16,6 +16,6 @@ async function archiveDirectory(path) {
       "archiver has been finalized and the output file descriptor has closed."
     );
   });
-  archive.finalize();
+  await archive.finalize();
 }
 module.exports = { archiveDirectory };

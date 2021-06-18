@@ -1,20 +1,22 @@
-const { workerData, parentPort, postMessage } = require("worker_threads");
-const { client } = require("../config/index");
+const { workerData, parentPort } = require("worker_threads");
+const { client } = require("./get-directory");
+const { BASE_PATH } = require("./get-directory");
 const fs = require("fs");
 const name = workerData.name;
 const dir = workerData.dir;
-(async () => await writeContentsFile(dir))();
+writeContentsFile(dir, name);
 async function getContents(name) {
   try {
-    const file = Buffer.from(await client.getFileContents(name));
+    const file = await client.getFileContents(name);
+    console.log(file);
     return file;
   } catch (e) {
-    console.log(name);
+    console.log(e);
   }
 }
-async function writeContentsFile(dir) {
+async function writeContentsFile(dir, name) {
   const file = await getContents(name);
   const writableStream = fs.createWriteStream(dir);
   writableStream.write(file);
+  parentPort.postMessage({ status: "Done" });
 }
-parentPort.postMessage({ name: workerData, status: "Done" });

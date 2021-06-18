@@ -26,7 +26,7 @@
           >
         </div>
         <div class="mr-8">
-          <v-btn elevation="1" x-large class="focus:outline-none"
+          <v-btn elevation="1" x-large class="focus:outline-none" @click="updateArchive()"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 mr-2"
@@ -66,6 +66,7 @@
                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                   />
                 </svg>
+                
               </v-list-item-icon>
               <v-list-item-icon v-if="!dataType(item.type)" class="mr-3">
                 <svg
@@ -89,7 +90,7 @@
                   v-text="item.name"
                 ></v-list-item-title></v-list-item-content
               ><v-btn 
-                @click="downloadArchive(item.path)"
+                @click="downloadArchive(item.path, item.name)"
                 elevation="1"
                 icon
                 class="focus:outline-none"
@@ -132,8 +133,12 @@ export default {
     },
   },
   methods: {
-    async downloadArchive(path) {
-      getArchiveDirectory(path);
+    async updateArchive() {
+      await get("update");
+    },
+    async downloadArchive(path, name) {
+      console.log(name)
+      await getArchiveDirectory(path, name);
     },
     dataType(type) {
       if (type === "directory") return true;

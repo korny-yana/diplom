@@ -1,4 +1,5 @@
 const { getDirectoryMap } = require("./directory-map");
+const { getDirectoryContents } = require("./get-directory");
 const { archiveDirectory } = require("./archiver");
 const http = require("http");
 const fs = require("fs");
@@ -16,6 +17,9 @@ const hostname = "127.0.0.1";
 const port = 3000;
 const server = http.createServer(async (req, res) => {
   switch (req.url) {
+    case "/update": {
+      await getDirectoryContents("/");
+    }
     case "/": {
       await getDirectoryMap(__dirname + "/archive");
       fs.readFile(__dirname + "/directory-map.json", function (err, data) {
@@ -43,10 +47,12 @@ const server = http.createServer(async (req, res) => {
     default: {
       const request = req.url.slice(1);
       if (req.method == "POST") {
-        req.on("data", (body) => {
-          if (body.toString() === "archive") {
-            archiveDirectory(request);
-          }
+        req.on("data", async (body) => {
+            await archiveDirectory(request, body);
+            const data =  Buffer.from(await fs.readFileSync("api/src/archive.zip"));
+            console.log(data)
+            responseEnd(data);
+          
         });
       } else {
         fs.stat(request, async (err, stats) => {

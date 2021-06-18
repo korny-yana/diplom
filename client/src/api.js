@@ -14,13 +14,15 @@ async function getfile(pathName, filename) {
   downloadFiles(filename, response)
 }
 
-async function getArchiveDirectory(pathName) {
+async function getArchiveDirectory(pathName, name) {
   if (pathName === undefined) {
     pathName = "getArchive";
+    name = "archive"
   }
-  await fetch(`http://127.0.0.1:3000/${pathName}`, {
-    method: "post", body: "archive"
-  })
+ const response = await fetch(`http://127.0.0.1:3000/${pathName}`, {
+    method: "post", body: name
+  }).then((response) => response.arrayBuffer());
+  downloadFiles(`${name}.zip`, response)
 }
 
 module.exports = { get, getfile, getArchiveDirectory};
